@@ -1,0 +1,5 @@
+*.csv
+*.docx
+.idea/
+.ipynb_checkpoints/
+*.csv#
