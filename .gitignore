@@ -3,3 +3,5 @@
 .idea/
 .ipynb_checkpoints/
 *.csv#
+*.docx#
+*.doc#
