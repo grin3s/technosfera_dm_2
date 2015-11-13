@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import requests
+import struct
+import math
 import json
 import pickle
 
@@ -33,7 +35,7 @@ def fetch_location(location):
     results = answer['results']
     if len(results) > 0:
         position = results[0]['geometry']['location']
-        return position['lat'], position['lng']
+        return [position['lat'], position['lng']]
     else:
         return None
 
@@ -48,11 +50,16 @@ def get_all_locations(data):
 
     return res
 
-dataset = pd.read_csv('NYC_Jobs.csv')
-grouped_agency = dataset.groupby('Agency')
-grouped_agency_count = grouped_agency.size().sort_values(ascending=False)
-dataset['AvgSalary'] = (dataset['Salary Range From'] + dataset['Salary Range To']) / 2
-locations = get_all_locations(dataset)
-#plot_bar_counts(grouped_agency_count)
+
+def rgb_to_hex(color):
+    color = map(lambda x: int(math.floor(x*255)), color)
+    return '#' + struct.pack('BBB', *color).encode('hex')
+
+#dataset = pd.read_csv('NYC_Jobs.csv')
+#grouped_agency = dataset.groupby('Agency')
+#grouped_agency_count = grouped_agency.size().sort_values(ascending=False)
+#dataset['AvgSalary'] = (dataset['Salary Range From'] + dataset['Salary Range To']) / 2
+#locations = get_all_locations(dataset)
+#pickle.dump(locations, open('locations2.data', 'wb'))
 
 #violin_plot_cat(dataset[dataset['Salary Frequency']=="Annual"],'Agency','AvgSalary',grouped_agency_count.keys().values)
